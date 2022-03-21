@@ -5,7 +5,7 @@ import { IPokemonResponse, IPokemonItem, IResultItem } from '../interfaces/Pokem
 
 const usePokemonPaginate = () => {
     
-    const nextUrl = useRef("https://pokeapi.co/api/v2/pokemon/?offset=40");
+    const nextUrl = useRef("https://pokeapi.co/api/v2/pokemon?limit=40");
     const [isLoading, setisLoading] = useState(true);
     const [pokemonList, setPokemonList] = useState<IPokemonItem[]>([]);
 
@@ -22,17 +22,14 @@ const usePokemonPaginate = () => {
     const mapPokemonList = (data:IResultItem[]) => {
 
         const newPokemonList:IPokemonItem[] =  data.map(({name,url}) => {
-            const id = url.split('/').slice(-2,-1)[0];
-            return  {
-                id,
-                name,
-                picture: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`,
-                color: "red"
-
-            } 
+            const urlParts = url.split('/');
+            const id = urlParts[ urlParts.length - 2 ];
+            const picture = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${ id }.png`;
+            
+            return { id, picture, name };
         });
 
-        setPokemonList((prev) => [...prev, ...newPokemonList]);
+        setPokemonList([...pokemonList, ...newPokemonList]);
         setisLoading(false);
     }
 

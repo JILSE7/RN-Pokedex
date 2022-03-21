@@ -1,5 +1,6 @@
+
 import React, { useState } from 'react'
-import { ActivityIndicator, Animated, ImageErrorEventData, ImageStyle, NativeSyntheticEvent, StyleProp, View, Image } from 'react-native';
+import { ActivityIndicator, Animated, ImageErrorEventData, ImageStyle, NativeSyntheticEvent, StyleProp, View } from 'react-native'
 import { useAnimation } from '../hooks/useAnimation';
 
 
@@ -20,7 +21,6 @@ export const FadeInImage = ({ uri, style = {} } : Props) => {
 
     const onError = (err: NativeSyntheticEvent<ImageErrorEventData>) => {
         setIsLoading( false );
-        console.log(err);
     }
 
     return (
@@ -32,8 +32,11 @@ export const FadeInImage = ({ uri, style = {} } : Props) => {
             
             {
                 isLoading && 
-                    <ActivityIndicator style={{height: 50, marginBottom: 170}}  color="#f2c201" size={30}/>
-                   
+                    <ActivityIndicator 
+                        style={{ position: 'absolute' }} 
+                        color="grey"
+                        size={ 30 }
+                    />
             }
 
             <Animated.Image 
